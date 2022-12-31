@@ -1,0 +1,51 @@
+<div class="wrapper register-form">
+    <div class="title">Register</div>
+    <form action="/register" method="post" enctype="multipart/form-data">
+        <div class="field">
+            <input type="text" name="clb_name" id="register_name" value="{{data.name}}" required>
+            <label for="">Tên câu lạc bộ</label>
+        </div>
+        <div class="field">
+            <input type="text" name="clb_username" id="register_username" value="{{data.username}}" required>
+            <label for="">Tên tài khoản</label>
+        </div>
+        <div class="field">
+            <input type="text" name="clb_email" id="register_email" value="{{data.email}}" required>
+            <label for="">Email</label>
+        </div>
+        <div class="field">
+            <input type="password" name="clb_password" id="register_password" value="{{data.password}}" required>
+            <label for="">Mật khẩu</label>
+        </div>
+        <div class="field">
+            <input type="password" name="clb_repeat_password" id="register_repeat_password" value="{{data.repeatPassword}}" required>
+            <label for="">Xác nhận mật khẩu</label>
+        </div>
+        <div class="field" style="display:flex">
+            <input type="text" name="clb_department" placeholder="Khoa" id="register_department" value="{{data.faculty}}" required readonly>
+            <label for=""></label>
+            <div class="dropdown" id="dropdown-list-faculty">
+                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="dropdown-faculty">
+                    {{!-- <li>&ensp;IT </li>
+                    <li>&ensp;Kế toán</li> --}}
+                </ul>
+            </div>
+            
+        </div>
+        {{#if err}}
+            <div class="error-register">
+                {{err}}
+            </div>
+        {{/if}}
+        <div class="field">
+            <input type="submit" value="Register" id="register_button">
+        </div>
+        <div class="signup-link">
+            Have a account ? 
+            <a href="/login">Sign In Now</a>
+        </div>
+    </form>
+</div>

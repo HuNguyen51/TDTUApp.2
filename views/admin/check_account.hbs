@@ -1,0 +1,67 @@
+<style>
+    body {
+        width: 100% !important;
+        background-color: #dbdada !important;
+    }
+</style>
+<div class="container-fluid">
+    {{> Header/headerAdmin}}
+    <div class="row container__admin">
+        {{> Sidebar/sidebarAdmin}}
+        <div class="col-lg-9 pt-3 mb-5  scroll-content">
+
+           <div class="check__account">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Tài Tên nhóm</th>
+                        <th>CLB/Khoa</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each users}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{faculty}}</td>
+                            <td>{{email}}</td>
+                            <td class="btn accept-button" data-toggle="modal" data-target="#check-user" onclick="checkDetails(`{{id}}`,`{{name}}`, `{{avatar}}`, `{{bio}}`, `{{isBan}}`)"> Chi tiết</td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            
+        <div/>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="check-user">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span id="check-name">Tên</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/accept" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <img id="check-avatar" src="" alt="" class="form-control edit__profile-img">
+            </div>
+            <div class="form-group">
+                <p id="check-bio">Tiểu sử của tôi</p>
+                <p>Quyền truy cập ứng dụng: <span id="check-ban">được phép/bị chặn</span> </p>
+            </div>
+        <div class="modal-footer">
+            <input id = "check_user_id" name="user_id" type="hidden">
+            <button type="submit" class="btn btn-primary">Accept</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>

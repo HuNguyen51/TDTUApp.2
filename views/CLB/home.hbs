@@ -1,0 +1,329 @@
+<div class="wraper_clb">
+    <div class="container">
+        <div class="row mt-4" >
+            <div class="col-lg-12 wraper_foreground" style="padding: 0px;">
+                <div class="header">
+                    <div class="header__info">
+                        <img src="{{club.avatar}}" alt="" class="header__info-img">
+                        <ul>
+                            <li><p class="header__info-text">{{club.name}}</p></li>
+                            <li>
+                                <div class="header__info-follow">
+                                    <h><span id="follow-count">{{club.follower.length}}</span> lượt theo dõi</h>
+                                    {{!-- <div class = "group-user-follow">
+                                        <img src="/images/hp.jpg" alt="" class="user-follow-img">
+                                        <img src="/images/hp.jpg" alt="" class="user-follow-img">                  
+                                    </div> --}}
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        
+                    </div>
+                    <div class="header__control">
+                        
+                        <p class="header__control-add" data-toggle="modal" data-target="#add-post" style="margin-right: 18px;">
+                            Thêm bài viết
+                        </p>
+                        <p class="header__control-edit" data-toggle="modal" data-target="#edit-profile" onclick="editProfile(`{{club.id}}`, `{{club.name}}`, `{{club.faculty}}`)">
+                            Chỉnh sửa trang
+                        </p>
+                        <div class="dropdown header__control-dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="btn" id="logout-button" href="/logout">&ensp;Đăng xuất</a> 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        
+        <div class="row mt-4 mb-5" style="width: 100%">
+            <div class="col-lg-4" style="width: 100%">
+                <div class="info wraper_foreground">
+                    <div class="info__intro">
+                        <h2>Giới thiệu</h2>
+                        <p>{{club.bio}}</p>
+                        <div style="width: max-content;" class="btn btn-primary" data-toggle="modal" data-target="#edit-bio" onclick="editBio(`{{club.id}}`, `{{club.bio}}`)">Chỉnh sửa tiểu sử</div>                
+                    </div>
+                    <div class="info__intro">
+                        <h2>Khoa</h2>
+                        <p>{{club.faculty}}</p>
+                    </div>
+                    {{#if club.check}}
+                    {{else}}
+                        <div class="info__intro">
+                            <p class="text text-danger">Tài khoản của bạn chưa được kích hoạt</p>
+                        </div>
+                    {{/if}}
+                    
+                
+                </div>
+            </div>
+            <div class="col-lg-8" style="width: 100%">
+            {{#each posts}}
+                <div class="ml-4 posts wraper_foreground">
+                    <div class="posts__header">
+                        <div class="posts__header-left">
+                            <img src={{avatar_club}} alt="" class="posts__header-img">
+                            <div style="margin-left: 10px; width: 100%">
+                                <p><strong>{{name_club}}</strong></p>
+                                <p>{{data.create_date}}</p>
+                            </div>
+                        </div>
+                        <div class="posts__header-right">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <li><div class="btn" data-toggle="modal" data-target="#update-post" onclick="updatePostByID(`{{id}}`, `{{data.content}}`, `{{data.linkImg}}`, `{{data.from}}`, `{{data.to}}`, `{{data.field}}`)">&ensp;Chỉnh sửa</div> </li>
+                                    <li><div class="btn" data-toggle="modal" data-target="#delete-post" onclick="deletePostByID(`{{id}}`)">&ensp;Xóa</div> </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={{data.linkImg}} alt="" class="posts__img">
+                    <div class="posts__content">
+                        <div>
+                            <span>{{data.field}}</span>
+                            <span class="from-date-to-date">
+                                <span>{{data.from}}</span> : <span>{{data.to}}</span>
+                            </span>
+                        </div>
+        
+
+                        <hr class="solid">
+                        <p class="posts__content-text">
+                            {{data.content}}    
+                        </p>
+                    </div>
+                </div>
+            {{/each}}   
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- tạo bài viết --}}
+<div class="modal" tabindex="-1" role="dialog" id="add-post">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tạo bài viết</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/clb/create" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="post_content_text">Nội dung bài viết</label>
+                <textarea  id="post_content_text" name="post_content_text" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="post_content_from_date">Ngày bắt đầu</label>
+                <input type="date" id="post_content_from_date" name="post_content_from_date" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="post_content_to_date">Ngày kết thúc</label>
+                <input type="date" id="post_content_to_date" name="post_content_to_date" class="form-control"></input>
+            </div>
+            <div class="form-group " style="display: flex; margin-top:18px">
+                <input style="width: 95%;" type="text" id="post_content_field" placeholder="Cột điểm" name="post_content_field" class="form-control" readonly></input>
+                <div class="dropdown dropdown-list-fields">
+                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-fields">
+                        {{!-- <li>&ensp;IT </li>
+                        <li>&ensp;Kế toán</li> --}}
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <img class="post_img_preview" id="post_img_preview_r">
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input name="post_content_img" type="file" class="custom-file-input" id="customFile" accept="image/gif, image/jpeg, image/png, image/bmp">
+                    <label class="custom-file-label" for="customFile">Thêm hình ảnh</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+{{!-- chỉnh sửa trang câu lạc bộ --}}
+<div class="modal" tabindex="-1" role="dialog" id="edit-profile">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chỉnh sửa trang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/clb/edit_profile" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="edit_profile_avatar">Ảnh đại diện</label>
+                <img id="edit_profile_avatar" src="{{club.avatar}}" alt="" class="form-control edit__profile-img">
+            </div>
+            <div class="form-group">
+                <label for="edit_profile_name">Tên clb</label>
+                <input  id="edit_profile_name" name="edit_profile_name" class="form-control" value="{{club.name}}"/>
+                <input  id="club_id" class="club_id" type="hidden" name="club_id" value="{{club.id}}"/>
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input name="club_avatar" type="file" class="custom-file-input" id="customFile_avatar" accept="image/gif, image/jpeg, image/png, image/bmp">
+                    <label class="custom-file-label" for="customFile_avatar">Thêm hình ảnh</label>
+                </div>
+            </div>
+            <div class="form-group " style="display: flex; margin-top:18px">
+                <input style="width: 95%;" type="text" value="{{club.faculty}}" id="post_content_faculty" placeholder="Khoa" name="edit_profile_faculty" class="form-control" readonly></input>
+                <div class="dropdown dropdown-list-faculty">
+                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-faculty">
+                        {{!-- <li>&ensp;IT </li>
+                        <li>&ensp;Kế toán</li> --}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{!-- sửa bài viết --}}
+<div class="modal" tabindex="-1" role="dialog" id="update-post">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sửa bài viết</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/clb/update" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="post_content_text_u">Nội dung bài viết</label>
+                <textarea  id="post_content_text_u" name="post_content_text" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="post_content_from_date_u">Ngày bắt đầu</label>
+                <input type="date" id="post_content_from_date_u" name="post_content_from_date" class="form-control"></input>
+            </div>
+            <div class="form-group">
+                <label for="post_content_to_date_u">Ngày kết thúc</label>
+                <input type="date" id="post_content_to_date_u" name="post_content_to_date" class="form-control"></input>
+            </div>
+            <div class="form-group " style="display: flex; margin-top:18px">
+                <input style="width: 95%;" type="text" id="post_content_field_u" placeholder="Cột điểm" name="post_content_field" class="form-control" readonly></input>
+                <div class="dropdown dropdown-list-fields">
+                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-fields">
+                        {{!-- <li>&ensp;IT </li>
+                        <li>&ensp;Kế toán</li> --}}
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="post_id_u" name = "post_id">
+                <img class="post_img_preview" id="post_img_preview_u" src="" alt="">
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input name="post_content_img" type="file" class="custom-file-input" id="customFile_u" accept="image/gif, image/jpeg, image/png, image/bmp">
+                    <label class="custom-file-label" for="customFile_u">Thêm hình ảnh</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+{{!-- sửa tiểu sử --}}
+<div class="modal" tabindex="-1" role="dialog" id="edit-bio">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chỉnh sửa tiểu sử</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/clb/edit_bio" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="club_bio">Tiểu sử của đội nhóm</label>
+                <textarea  id="club_bio" name="club_bio" class="form-control" rows="5">{{club.bio}}</textarea>
+                <input type="hidden" class="club_id" name = "club_id">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
+
+{{!-- xóa bài viết --}}
+<div class="modal" tabindex="-1" role="dialog" id="delete-post">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa bài viết</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/clb/delete" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <div>Bạn có chắc muốn xóa bài viết này? </div>
+                <input id = "post_id_d" name="post_id" type="hidden">
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="post_confirm_delete">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>

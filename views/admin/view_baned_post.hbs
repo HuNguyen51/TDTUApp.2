@@ -1,0 +1,71 @@
+<style>
+    body {
+        width: 100% !important;
+        background-color: #dbdada !important;
+    }
+</style>
+<div class="container-fluid">
+    {{> Header/headerAdmin}}
+    <div class="row container__admin">
+        {{> Sidebar/sidebarAdmin}}
+        <div class="col-lg-9 pt-3 mb-5 scroll-content">
+
+           {{#each posts}}
+                <div class="posts">
+                    <div class="posts__header">
+                        <div class="posts__header-left">
+                            <img src={{avatar_club}} alt="" class="posts__header-img">
+                            <div style="margin-left: 10px; width: 100%">
+                                <p><strong>{{name_club}}</strong></p>
+                                <p>{{data.create_date}}</p>
+                            </div>
+                        </div>
+                        <div class="posts__header-right">
+                            <div class="btn btn-primary" data-toggle="modal" data-target="#allow-post" onclick="allowPost(`{{id}}`)">Cho phép</div>
+                        </div>
+                    </div>
+                    <img src={{data.linkImg}} alt="" class="posts__img">
+                    <div class="posts__content">
+                        <div>
+                            <span>{{data.field}}</span>
+                            <span class="from-date-to-date">
+                                <span>{{data.from}}</span> : <span>{{data.to}}</span>
+                            </span>
+                        </div>
+                
+                        <hr class="solid">
+                        <p class="posts__content-text">
+                            {{data.content}}    
+                        </p>
+                    </div>
+                </div>
+           {{/each}}
+            
+        <div/>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="allow-post">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cho phép hiện bài viết</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/allow" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <div>Bạn có chắc muốn gỡ chặn bài viết này? </div>
+                <input id = "post_id_allow" name="post_id" type="hidden">
+            </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
