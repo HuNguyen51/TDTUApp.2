@@ -1,4 +1,4 @@
-# TDTUApp.2
+# TDTUApp.2: Nodejs
 ## Đề tài cuối kỳ môn phát triển ứng dụng di động về chủ đề hỗ trợ tìm kiếm điểm rèn luyện và nhắn tin realtime với nhau
 công cụ sử dụng:
 - Android studio: java
