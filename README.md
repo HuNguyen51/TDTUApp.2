@@ -5,7 +5,7 @@ công cụ sử dụng:
  -> https://github.com/HuNguyen51/TDTUApp.1.git
 - nodejs: xây dựng các API webservice và giao diện admin, giao diện post bài viết của các câu lạc bộ/đội nhóm 
 - firebase: 
-- 
+
 cloud messaging: đẩy thông báo khi có tin nhắn mới
 
 firestore: lưu thông tin người dùng và các bài viết
